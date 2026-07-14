@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pembayaran Berjaya - Socmegy</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #0b0b0b 0%, #1a1a1a 100%);
+            color: #f5f0eb;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.015);
+            backdrop-filter: blur(48px) saturate(2.4);
+            -webkit-backdrop-filter: blur(48px) saturate(2.4);
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            border-radius: 28px;
+            box-shadow: 
+                0 8px 48px rgba(0, 0, 0, 0.6),
+                inset 0 1px 0 rgba(255, 255, 255, 0.06),
+                0 0 80px rgba(212, 167, 67, 0.01);
+            padding: 60px 40px;
+            max-width: 500px;
+            text-align: center;
+            animation: slideUp 0.6s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .success-icon {
+            font-size: 4rem;
+            color: #51cf66;
+            margin-bottom: 20px;
+            animation: scaleIn 0.6s ease-out 0.2s both;
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            background: linear-gradient(135deg, #e8c96e, #d4a743);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 1rem;
+            color: #a09888;
+            margin-bottom: 32px;
+        }
+
+        .details {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 32px;
+            text-align: left;
+        }
+
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+        }
+
+        .detail-item:last-child {
+            border-bottom: none;
+        }
+
+        .detail-label {
+            color: #a09888;
+            font-size: 0.9rem;
+        }
+
+        .detail-value {
+            font-weight: 600;
+            color: #f5f0eb;
+        }
+
+        .info-box {
+            background: rgba(81, 207, 102, 0.1);
+            border: 1px solid rgba(81, 207, 102, 0.2);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 24px;
+            font-size: 0.9rem;
+            color: #b8e6c4;
+            line-height: 1.6;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 60px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+            font-size: 0.9rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #d4a743, #b8922f);
+            color: #0b0b0b;
+            box-shadow: 0 4px 20px rgba(212, 167, 67, 0.25);
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.03);
+            box-shadow: 0 6px 32px rgba(212, 167, 67, 0.4);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #f5f0eb;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .status-badge {
+            display: inline-block;
+            background: rgba(81, 207, 102, 0.2);
+            border: 1px solid rgba(81, 207, 102, 0.4);
+            color: #51cf66;
+            padding: 6px 16px;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 16px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 40px 24px;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            .success-icon {
+                font-size: 3rem;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="success-icon">
+            <i class="fas fa-check-circle"></i>
+        </div>
+
+        <div class="status-badge">Pembayaran Berjaya</div>
+
+        <h1>Terima Kasih!</h1>
+        <p class="subtitle">Pesanan anda telah diterima dan sedang diproses.</p>
+
+        <div class="info-box">
+            <i class="fas fa-info-circle"></i> Perkhidmatan akan dihantar dalam masa <strong>24 jam</strong>. 
+            Jangan tutup halaman ini sebelum selesai.
+        </div>
+
+        <div class="details">
+            <div class="detail-item">
+                <span class="detail-label">Status Pembayaran</span>
+                <span class="detail-value" style="color: #51cf66;">✓ Berjaya</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Order Reference</span>
+                <span class="detail-value">ORDER-<span id="orderId">--</span></span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Tarikh</span>
+                <span class="detail-value" id="orderDate">--</span>
+            </div>
+        </div>
+
+        <div class="button-group">
+            <button class="btn btn-primary" onclick="window.location.href='/'">
+                <i class="fas fa-home"></i> Kembali ke Halaman Utama
+            </button>
+            <button class="btn btn-secondary" onclick="window.location.href='/#services'">
+                <i class="fas fa-shopping-bag"></i> Beli Lagi
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Get order ID from URL parameter if available
+        const urlParams = new URLSearchParams(window.location.search);
+        const orderId = urlParams.get('orderId') || Date.now();
+        document.getElementById('orderId').textContent = orderId;
+
+        // Set current date
+        const now = new Date();
+        const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+        document.getElementById('orderDate').textContent = now.toLocaleDateString('ms-MY', options);
+
+        // Clear cart after successful payment
+        try {
+            localStorage.removeItem('socmegy_cart');
+        } catch (_) {}
+
+        console.log('✨ Payment successful! Order ID:', orderId);
+    </script>
+</body>
+</html>
