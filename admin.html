@@ -14,6 +14,7 @@
             background: #0a0a0a;
             color: #f5f0eb;
             min-height: 100vh;
+            padding: 0 16px;
             padding-top: 80px;
         }
         ::-webkit-scrollbar { display: none; }
@@ -144,9 +145,9 @@
         /* ===== ADMIN PANEL ===== */
         #adminPanel {
             display: none;
-            padding: 16px;
             max-width: 1200px;
             margin: 0 auto;
+            padding: 0;
         }
 
         .glass {
@@ -158,37 +159,50 @@
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
         }
 
-        /* ===== HEADER - STICKY ===== */
+        /* ===== HEADER - SAMA MACAM WEBSITE ===== */
         .admin-header {
             position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
+            top: 14px;
+            left: 50%;
+            transform: translateX(-50%);
             z-index: 100;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 22px;
-            background: rgba(10,10,10,0.85);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-            box-shadow: 0 4px 30px rgba(0,0,0,0.3);
+            padding: 8px 24px;
+            width: calc(100% - 40px);
             max-width: 1200px;
-            margin: 0 auto;
+            border-radius: 100px;
+            background: transparent;
+            backdrop-filter: none;
+            -webkit-backdrop-filter: none;
+            border: 1px solid transparent;
+            box-shadow: none;
+            transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .admin-header.scrolled {
+            background: rgba(10,10,10,0.85);
+            backdrop-filter: blur(12px) saturate(1.2);
+            -webkit-backdrop-filter: blur(12px) saturate(1.2);
+            border: 1px solid rgba(255,255,255,0.08);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+        }
+        .admin-header .header-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+            z-index: 1;
         }
         .admin-header .logo {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
             font-size: 1.2rem;
             font-weight: 700;
             text-decoration: none;
             color: #f5f0eb;
         }
         .admin-header .logo img {
-            height: 36px;
-            width: 36px;
+            height: 32px;
+            width: 32px;
             border-radius: 50%;
             object-fit: cover;
             border: 2px solid rgba(212,167,67,0.12);
@@ -198,18 +212,53 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-        .admin-header .logout {
+        .admin-header .logo .admin-tag {
+            color: #8a8a8a;
+            font-weight: 400;
+            font-size: 0.6rem;
+            background: rgba(255,255,255,0.05);
+            padding: 2px 10px;
+            border-radius: 20px;
+            letter-spacing: 0.5px;
+        }
+        .admin-header .nav-links {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            list-style: none;
+        }
+        .admin-header .nav-links a {
+            color: rgba(255,255,255,0.6);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: color 0.3s;
+            position: relative;
+        }
+        .admin-header .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #d4a743;
+            transition: width 0.3s;
+        }
+        .admin-header .nav-links a:hover { color: #f5f0eb; }
+        .admin-header .nav-links a:hover::after { width: 100%; }
+        .admin-header .logout-btn {
             background: none;
             border: 1px solid rgba(255,255,255,0.06);
             color: #8a8a8a;
             cursor: pointer;
             font-size: 0.8rem;
             font-family: inherit;
-            padding: 8px 18px;
+            padding: 6px 16px;
             border-radius: 30px;
             transition: all 0.3s;
         }
-        .admin-header .logout:hover {
+        .admin-header .logout-btn:hover {
             color: #ff6b6b;
             border-color: rgba(255,107,107,0.2);
             background: rgba(255,107,107,0.05);
@@ -236,37 +285,33 @@
             color: #8a8a8a;
             margin-top: 2px;
         }
-        .stat-box .sub-num {
-            font-size: 0.9rem;
-            color: #51cf66;
-        }
 
-        /* ===== TABS ===== */
+        /* ===== TABS - FIT TO SCREEN ===== */
         .tabs {
             display: flex;
-            gap: 4px;
-            flex-wrap: nowrap;
-            padding: 6px;
+            gap: 0;
+            padding: 4px;
             margin-bottom: 20px;
             background: rgba(255, 255, 255, 0.02);
             border: 1px solid rgba(255, 255, 255, 0.04);
-            border-radius: 14px;
+            border-radius: 12px;
             overflow-x: auto;
             -webkit-overflow-scrolling: touch;
         }
         .tabs button {
+            flex: 1;
             background: none;
             border: none;
-            padding: 8px 16px;
-            border-radius: 30px;
+            padding: 8px 12px;
+            border-radius: 10px;
             color: #8a8a8a;
             cursor: pointer;
-            font-size: 0.8rem;
+            font-size: 0.78rem;
             font-family: inherit;
             font-weight: 500;
             transition: all 0.3s;
             white-space: nowrap;
-            flex-shrink: 0;
+            text-align: center;
         }
         .tabs button:hover { color: #fff; }
         .tabs button.active {
@@ -277,7 +322,7 @@
         .tab-content.active { display: block; }
 
         /* ===== BUTTONS ===== */
-        .btn-add, .btn-export {
+        .btn-add {
             padding: 10px 24px;
             border: none;
             border-radius: 10px;
@@ -290,9 +335,7 @@
             margin-bottom: 14px;
             transition: all 0.3s;
         }
-        .btn-add:hover, .btn-export:hover { transform: scale(1.02); box-shadow: 0 4px 20px rgba(212,167,67,0.2); }
-        .btn-export { background: rgba(255,255,255,0.05); color: #f5f0eb; border: 1px solid rgba(255,255,255,0.06); }
-        .btn-export:hover { background: rgba(255,255,255,0.1); }
+        .btn-add:hover { transform: scale(1.02); box-shadow: 0 4px 20px rgba(212,167,67,0.2); }
         .btn-edit { background: rgba(212, 167, 67, 0.15); color: #d4a743; }
         .btn-edit:hover { background: rgba(212, 167, 67, 0.25); }
         .btn-toggle { background: rgba(81, 207, 102, 0.15); color: #51cf66; }
@@ -331,26 +374,30 @@
         .product-card:hover {
             border-color: rgba(212, 167, 67, 0.12);
         }
-        .product-card .badge {
-            display: inline-block;
-            padding: 2px 10px;
-            border-radius: 30px;
-            font-size: 0.55rem;
-            font-weight: 600;
-            text-transform: uppercase;
-        }
-        .badge.available { background: rgba(81, 207, 102, 0.15); color: #51cf66; }
-        .badge.not_available { background: rgba(255, 107, 107, 0.15); color: #ff6b6b; }
-        .product-card .category-tag {
-            display: inline-block;
-            padding: 2px 10px;
-            border-radius: 30px;
-            font-size: 0.5rem;
-            font-weight: 600;
-            background: rgba(212,167,67,0.1);
-            color: #d4a743;
-            margin-bottom: 4px;
-        }
+.product-card .badge,
+.product-card .category-tag {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 30px;
+    font-size: 0.55rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.product-card .category-tag {
+    background: rgba(212,167,67,0.1);
+    color: #d4a743;
+}
+
+.product-card .badge.available {
+    background: rgba(81, 207, 102, 0.15);
+    color: #51cf66;
+}
+
+.product-card .badge.not_available {
+    background: rgba(255, 107, 107, 0.15);
+    color: #ff6b6b;
+}
         .product-card .name {
             font-weight: 600;
             font-size: 1rem;
@@ -525,10 +572,10 @@
             resize: vertical;
         }
         .hero-settings small {
-            color: #666;
+            color: #555;
             font-size: 0.65rem;
-            display: block;
             margin-top: 2px;
+            display: block;
         }
 
         /* ===== TERMS & SHIPPING EDITOR ===== */
@@ -561,47 +608,74 @@
             border-color: #d4a743;
         }
 
-        /* ===== CHART ===== */
-        .chart-container {
+        /* ===== REPORT SECTION ===== */
+        .report-section {
             padding: 20px;
             margin-bottom: 20px;
         }
-        .chart-bar {
+        .report-section .report-controls {
             display: flex;
-            align-items: flex-end;
-            justify-content: space-around;
-            height: 200px;
             gap: 12px;
-            padding: 0 10px;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-        }
-        .chart-item {
-            display: flex;
-            flex-direction: column;
+            flex-wrap: wrap;
             align-items: center;
-            flex: 1;
-            height: 100%;
-            justify-content: flex-end;
+            margin-bottom: 16px;
         }
-        .chart-item .bar {
-            width: 100%;
-            max-width: 40px;
-            min-height: 4px;
-            background: linear-gradient(180deg, #d4a743, #b8922f);
-            border-radius: 4px 4px 0 0;
-            transition: height 0.6s ease;
+        .report-section .report-controls select,
+        .report-section .report-controls input {
+            padding: 8px 14px;
+            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.08);
+            background: rgba(255,255,255,0.04);
+            color: #fff;
+            font-size: 0.85rem;
+            font-family: inherit;
+            outline: none;
+            transition: border-color 0.3s;
         }
-        .chart-item .bar-label {
-            font-size: 0.55rem;
-            color: #8a8a8a;
-            margin-top: 6px;
+        .report-section .report-controls select:focus,
+        .report-section .report-controls input:focus {
+            border-color: #d4a743;
+        }
+        .report-section .report-controls select option {
+            background: #1a1a1a;
+        }
+        .report-section .report-controls .btn-export-report {
+            padding: 8px 20px;
+            border: none;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #d4a743, #b8922f);
+            color: #0a0a0a;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            font-family: inherit;
+            transition: all 0.3s;
+        }
+        .report-section .report-controls .btn-export-report:hover {
+            transform: scale(1.02);
+            box-shadow: 0 4px 20px rgba(212,167,67,0.2);
+        }
+        .report-section .report-summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        .report-section .report-summary .summary-item {
+            padding: 12px 16px;
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.04);
+            border-radius: 10px;
             text-align: center;
         }
-        .chart-item .bar-value {
-            font-size: 0.6rem;
+        .report-section .report-summary .summary-item .num {
+            font-size: 1.4rem;
+            font-weight: 700;
             color: #d4a743;
-            margin-bottom: 4px;
-            font-weight: 600;
+        }
+        .report-section .report-summary .summary-item .label {
+            font-size: 0.7rem;
+            color: #8a8a8a;
         }
 
         /* ===== MODAL ===== */
@@ -726,7 +800,7 @@
         .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
         .toast i { color: #d4a743; margin-right: 10px; }
 
-        /* ===== RESPONSIVE ===== */
+        /* ===== RESPONSIVE - SAMA MACAM WEBSITE ===== */
         @media (max-width: 768px) {
             #loginScreen { flex-direction: column; }
             .login-left { flex: 1; width: 100%; padding: 20px; }
@@ -734,12 +808,25 @@
             .login-left .brand h1 { font-size: 1.8rem; }
             .login-right { flex: 1; width: 100%; padding: 20px; align-items: flex-start; padding-top: 10px; }
             .login-right .login-box { max-width: 100%; }
-            body { padding-top: 70px; }
-            .admin-header { padding: 8px 14px; }
+            
+            body { 
+                padding: 0 12px; 
+                padding-top: 70px;
+            }
+            
+            .admin-header { 
+                top: 10px;
+                padding: 6px 14px; 
+                width: calc(100% - 20px);
+                border-radius: 40px;
+            }
+            .admin-header .admin-tag { display: none; }
             .admin-header .logo { font-size: 1rem; }
-            .admin-header .logo img { height: 28px; width: 28px; }
-            .tabs { flex-wrap: nowrap; overflow-x: auto; }
-            .tabs button { padding: 6px 12px; font-size: 0.7rem; }
+            .admin-header .logo img { height: 26px; width: 26px; }
+            .admin-header .nav-links { display: none; }
+            .admin-header .logout-btn { display: block; font-size: 0.7rem; padding: 4px 12px; }
+            
+            .tabs button { padding: 6px 8px; font-size: 0.65rem; }
             .stats { grid-template-columns: repeat(2, 1fr); }
             .stat-box .num { font-size: 1.3rem; }
             .order-table { font-size: 0.7rem; min-width: 500px; }
@@ -748,28 +835,48 @@
             .product-grid { grid-template-columns: 1fr 1fr; }
             .modal { padding: 20px; }
             .toast { white-space: normal; max-width: 88%; font-size: 0.8rem; padding: 10px 18px; }
-            .chart-bar { height: 120px; gap: 6px; }
-            .chart-item .bar { max-width: 24px; }
+            .report-section .report-summary { grid-template-columns: 1fr 1fr; }
+            
+            .logo img { height: 26px; width: 26px; }
+            .logo { font-size: 1rem; gap: 8px; }
         }
+
         @media (max-width: 480px) {
             .login-left .brand .logo-img { width: 64px; height: 64px; }
             .login-left .brand h1 { font-size: 1.4rem; }
             .login-right .login-box input { padding: 12px 14px; font-size: 0.85rem; }
             .login-right .login-box button { padding: 12px; font-size: 0.85rem; }
-            body { padding-top: 60px; }
-            .admin-header { padding: 6px 10px; }
-            .admin-header .logo { font-size: 0.85rem; }
-            .admin-header .logo img { height: 22px; width: 22px; }
-            .admin-header .logout { font-size: 0.7rem; padding: 4px 10px; }
+            
+            body { 
+                padding: 0 10px; 
+                padding-top: 60px;
+            }
+            
+            .dock-header { padding: 6px 14px; width: calc(100% - 20px); border-radius: 40px; }
+            .dock-inner { gap: 10px; }
+            .dock-nav { display: none; }
+            .hamburger { display: block; }
+            .logo { font-size: 0.95rem; }
+            .logo img { height: 26px; }
+            .header-actions { gap: 10px; }
+            .admin-header .logout-btn { font-size: 0.6rem; padding: 3px 8px; }
+            
             .stats { grid-template-columns: 1fr 1fr; gap: 8px; }
             .stat-box { padding: 10px; }
             .stat-box .num { font-size: 1.1rem; }
             .product-grid { grid-template-columns: 1fr; }
             .list-item { flex-direction: column; align-items: stretch; }
             .list-item .actions { justify-content: flex-end; }
-            .tabs button { padding: 4px 10px; font-size: 0.65rem; }
-            .chart-bar { height: 100px; gap: 4px; }
-            .chart-item .bar { max-width: 18px; }
+            .tabs button { padding: 4px 6px; font-size: 0.6rem; }
+            .report-section .report-summary { grid-template-columns: 1fr; }
+            .report-section .report-controls { flex-direction: column; }
+            .report-section .report-controls select,
+            .report-section .report-controls input,
+            .report-section .report-controls .btn-export-report { width: 100%; }
+        }
+
+        @media (min-width: 769px) {
+            .admin-header .logout-btn { display: none; }
         }
     </style>
 </head>
@@ -801,15 +908,26 @@
     <!-- ===== ADMIN PANEL ===== -->
     <div id="adminPanel">
 
-        <!-- Header - STICKY -->
-        <div class="admin-header">
-            <a href="#" class="logo">
-                <img src="logo.png" alt="Socmegy" id="logoIcon" onerror="this.style.display='none'" />
-                <span class="gold">Socmegy</span>
-                <span style="color:#666;font-size:0.65rem;font-weight:400;margin-left:4px;">Admin</span>
-            </a>
-            <button class="logout" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</button>
-        </div>
+        <!-- Header - SAMA MACAM WEBSITE -->
+        <header class="admin-header" id="adminHeader">
+            <div class="header-inner">
+                <a href="#" class="logo">
+                    <img src="logo.png" alt="Socmegy" id="logoIcon" onerror="this.style.display='none'" />
+                    <span class="gold">Socmegy</span>
+                    <span class="admin-tag">Admin</span>
+                </a>
+                <ul class="nav-links">
+                    <li><a href="#" onclick="switchTab('hero')">Hero</a></li>
+                    <li><a href="#" onclick="switchTab('products')">Products</a></li>
+                    <li><a href="#" onclick="switchTab('testimonials')">Testimonials</a></li>
+                    <li><a href="#" onclick="switchTab('gallery')">Gallery</a></li>
+                    <li><a href="#" onclick="switchTab('orders')">Orders</a></li>
+                    <li><a href="#" onclick="switchTab('settings')">Settings</a></li>
+                    <li><a href="#" onclick="switchTab('report')">Report</a></li>
+                </ul>
+                <button class="logout-btn" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</button>
+            </div>
+        </header>
 
         <!-- Stats -->
         <div class="stats" id="statsGrid">
@@ -821,18 +939,7 @@
             <div class="stat-box glass"><div class="num" id="completedOrders">0</div><div class="label">Completed</div></div>
         </div>
 
-        <!-- Sales Chart -->
-        <div class="glass chart-container" id="chartContainer" style="display:none;">
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:10px;">
-                <span style="font-size:0.85rem;color:#8a8a8a;"><i class="fas fa-chart-bar"></i> Monthly Sales (Last 6 Months)</span>
-                <button class="btn-export" onclick="exportReport()" style="margin:0;padding:6px 16px;font-size:0.75rem;">
-                    <i class="fas fa-file-export"></i> Export Report
-                </button>
-            </div>
-            <div class="chart-bar" id="chartBar"></div>
-        </div>
-
-        <!-- Tabs -->
+        <!-- Tabs - FIT TO SCREEN -->
         <div class="tabs glass">
             <button class="active" data-tab="hero" onclick="switchTab('hero')">Hero</button>
             <button data-tab="products" onclick="switchTab('products')">Products</button>
@@ -840,6 +947,7 @@
             <button data-tab="gallery" onclick="switchTab('gallery')">Gallery</button>
             <button data-tab="orders" onclick="switchTab('orders')">Orders</button>
             <button data-tab="settings" onclick="switchTab('settings')">Settings</button>
+            <button data-tab="report" onclick="switchTab('report')">Report</button>
         </div>
 
         <!-- Tab: Hero -->
@@ -879,20 +987,68 @@
 
         <!-- Tab: Settings -->
         <div id="tabSettings" class="tab-content">
-            <!-- Terms & Conditions -->
             <div class="glass editor-box" style="margin-bottom:16px;">
                 <h3 style="color:#d4a743;font-size:1rem;margin-bottom:12px;"><i class="fas fa-file-contract"></i> Terms & Conditions</h3>
                 <label>Content (akan dipaparkan di website sebagai modal)</label>
                 <textarea id="termsEditor" rows="8"></textarea>
                 <button class="btn-save-hero" onclick="saveTerms()" style="margin-top:12px;"><i class="fas fa-save"></i> Save Terms</button>
             </div>
-
-            <!-- Shipping Info -->
             <div class="glass editor-box">
                 <h3 style="color:#d4a743;font-size:1rem;margin-bottom:12px;"><i class="fas fa-truck"></i> Shipping / Delivery Info</h3>
                 <label>Content (akan dipaparkan di website sebagai modal)</label>
                 <textarea id="shippingEditor" rows="8"></textarea>
                 <button class="btn-save-hero" onclick="saveShipping()" style="margin-top:12px;"><i class="fas fa-save"></i> Save Shipping Info</button>
+            </div>
+        </div>
+
+        <!-- Tab: Report -->
+        <div id="tabReport" class="tab-content">
+            <div class="glass report-section">
+                <h3 style="color:#d4a743;font-size:1rem;margin-bottom:16px;"><i class="fas fa-file-invoice"></i> Monthly Sales Report</h3>
+                
+                <div class="report-controls">
+                    <label style="color:#8a8a8a;font-size:0.8rem;">Select Month:</label>
+                    <input type="month" id="reportMonth" />
+                    <button class="btn-export-report" onclick="exportMonthlyReport()">
+                        <i class="fas fa-file-excel"></i> Export Excel
+                    </button>
+                </div>
+
+                <div class="report-summary" id="reportSummary">
+                    <div class="summary-item">
+                        <div class="num" id="reportTotalSales">RM0.00</div>
+                        <div class="label">Total Sales</div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="num" id="reportTotalOrders">0</div>
+                        <div class="label">Total Orders</div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="num" id="reportAvgOrder">RM0.00</div>
+                        <div class="label">Average Order</div>
+                    </div>
+                </div>
+
+                <div style="overflow-x:auto;margin-top:12px;">
+                    <table class="order-table" id="reportTable">
+                        <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Customer</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Items</th>
+                                <th>Total</th>
+                                <th>Status</th>
+                                <th>Date</th>
+                                <th>Note</th>
+                            </tr>
+                        </thead>
+                        <tbody id="reportTableBody">
+                            <tr><td colspan="9" style="text-align:center;color:#666;padding:20px;">Select a month to load data</td></tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
 
@@ -932,7 +1088,7 @@
         let salesStats = null;
 
         // ============================================================
-        // CATEGORY STORAGE (localStorage - for admin display only)
+        // CATEGORY STORAGE (localStorage)
         // ============================================================
         function getCategories() {
             try {
@@ -969,7 +1125,21 @@
         }
 
         // ============================================================
-        // LOGIN - Call worker to verify password (from KV)
+        // HEADER SCROLL - SAMA MACAM WEBSITE
+        // ============================================================
+        const adminHeader = document.getElementById('adminHeader');
+        adminHeader.classList.remove('scrolled');
+        
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 60) {
+                adminHeader.classList.add('scrolled');
+            } else {
+                adminHeader.classList.remove('scrolled');
+            }
+        });
+
+        // ============================================================
+        // LOGIN
         // ============================================================
         async function login() {
             const pwd = document.getElementById('adminPassword').value;
@@ -1027,7 +1197,7 @@
         });
 
         // ============================================================
-        // TABS
+        // TABS - Fit to screen
         // ============================================================
         function switchTab(tab) {
             document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
@@ -1038,7 +1208,8 @@
                 testimonials: 'tabTestimonials', 
                 gallery: 'tabGallery', 
                 orders: 'tabOrders',
-                settings: 'tabSettings'
+                settings: 'tabSettings',
+                report: 'tabReport'
             };
             document.getElementById(tabMap[tab]).classList.add('active');
             document.querySelector(`.tabs button[data-tab="${tab}"]`).classList.add('active');
@@ -1047,6 +1218,7 @@
             if (tab === 'gallery') loadGallery();
             if (tab === 'hero') loadHero();
             if (tab === 'settings') loadSettings();
+            if (tab === 'report') loadReport();
         }
 
         // ============================================================
@@ -1063,6 +1235,11 @@
                 loadSettings()
             ]);
             updateStats();
+            
+            // Set default month for report
+            const now = new Date();
+            const defaultMonth = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0');
+            document.getElementById('reportMonth').value = defaultMonth;
         }
 
         // ============================================================
@@ -1075,86 +1252,144 @@
                 });
                 if (response.ok) {
                     salesStats = await response.json();
-                    renderChart(salesStats.chartData);
-                    document.getElementById('chartContainer').style.display = 'block';
+                    updateStats();
                 }
             } catch (e) {
                 console.error('Sales stats error:', e);
             }
         }
 
-        function renderChart(data) {
-            const container = document.getElementById('chartBar');
-            if (!data || data.length === 0) {
-                container.innerHTML = '<div style="text-align:center;color:#666;padding:20px;">No data available</div>';
-                return;
+        // ============================================================
+        // REPORT - Monthly
+        // ============================================================
+        async function loadReport() {
+            const monthInput = document.getElementById('reportMonth');
+            const selectedMonth = monthInput.value || new Date().toISOString().slice(0, 7);
+            monthInput.value = selectedMonth;
+
+            try {
+                const response = await fetch(`${WORKER_URL}/api/admin/orders`, {
+                    headers: { 'Authorization': authToken || 'Bearer socmegy2026' }
+                });
+                if (!response.ok) throw new Error('Unauthorized');
+                const allOrders = await response.json();
+                
+                // Filter by selected month
+                const [year, month] = selectedMonth.split('-').map(Number);
+                const filtered = allOrders.filter(o => {
+                    if (o.status !== 'completed') return false;
+                    const date = new Date(o.createdAt);
+                    return date.getFullYear() === year && date.getMonth() === month - 1;
+                });
+
+                // Calculate summary
+                const totalSales = filtered.reduce((sum, o) => sum + (o.total || 0), 0);
+                const totalOrders = filtered.length;
+                const avgOrder = totalOrders > 0 ? totalSales / totalOrders : 0;
+
+                document.getElementById('reportTotalSales').textContent = 'RM' + totalSales.toFixed(2);
+                document.getElementById('reportTotalOrders').textContent = totalOrders;
+                document.getElementById('reportAvgOrder').textContent = 'RM' + avgOrder.toFixed(2);
+
+                // Render table
+                const tbody = document.getElementById('reportTableBody');
+                if (filtered.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="9" style="text-align:center;color:#666;padding:20px;">No completed orders for this month</td></tr>';
+                    return;
+                }
+
+                tbody.innerHTML = filtered.map(o => `
+                    <tr>
+                        <td><small>${o.orderId}</small></td>
+                        <td><strong>${o.customer?.name || 'N/A'}</strong></td>
+                        <td><small style="color:#8a8a8a;">${o.customer?.email || ''}</small></td>
+                        <td><small style="color:#8a8a8a;">${o.customer?.phone || ''}</small></td>
+                        <td>${(o.items || []).map(i => `${i.name} x${i.qty}`).join('<br/>')}</td>
+                        <td><strong>RM${(o.total || 0).toFixed(2)}</strong></td>
+                        <td><span class="badge-status completed">completed</span></td>
+                        <td><small style="color:#8a8a8a;">${new Date(o.createdAt).toLocaleDateString('en-MY')}</small></td>
+                        <td><small style="color:#8a8a8a;">${o.note || '-'}</small></td>
+                    </tr>
+                `).join('');
+
+            } catch (e) {
+                console.error('Report error:', e);
+                document.getElementById('reportTableBody').innerHTML = '<tr><td colspan="9" style="text-align:center;color:#ff6b6b;padding:20px;">Failed to load report</td></tr>';
             }
-            
-            const maxVal = Math.max(...data.map(d => d.total), 1);
-            
-            container.innerHTML = data.map(item => {
-                const height = (item.total / maxVal) * 100;
-                const monthLabel = item.month.substring(5) + '/' + item.month.substring(0,4);
-                return `
-                    <div class="chart-item">
-                        <div class="bar-value">RM${item.total.toFixed(0)}</div>
-                        <div class="bar" style="height:${Math.max(height, 4)}%;"></div>
-                        <div class="bar-label">${monthLabel}</div>
-                    </div>
-                `;
-            }).join('');
         }
 
         // ============================================================
-        // EXPORT REPORT
+        // EXPORT MONTHLY REPORT - Excel (CSV)
         // ============================================================
-        function exportReport() {
-            if (!salesStats) {
-                showToast('❌ No data to export', true);
-                return;
+        async function exportMonthlyReport() {
+            const monthInput = document.getElementById('reportMonth');
+            const selectedMonth = monthInput.value || new Date().toISOString().slice(0, 7);
+            
+            try {
+                const response = await fetch(`${WORKER_URL}/api/admin/orders`, {
+                    headers: { 'Authorization': authToken || 'Bearer socmegy2026' }
+                });
+                if (!response.ok) throw new Error('Unauthorized');
+                const allOrders = await response.json();
+                
+                const [year, month] = selectedMonth.split('-').map(Number);
+                const filtered = allOrders.filter(o => {
+                    if (o.status !== 'completed') return false;
+                    const date = new Date(o.createdAt);
+                    return date.getFullYear() === year && date.getMonth() === month - 1;
+                });
+
+                if (filtered.length === 0) {
+                    showToast('❌ No completed orders for this month', true);
+                    return;
+                }
+
+                // Summary
+                const totalSales = filtered.reduce((sum, o) => sum + (o.total || 0), 0);
+                const totalOrders = filtered.length;
+                const avgOrder = totalOrders > 0 ? totalSales / totalOrders : 0;
+
+                let csv = 'MONTHLY SALES REPORT\n';
+                csv += `Month: ${selectedMonth}\n`;
+                csv += `Generated: ${new Date().toLocaleString()}\n\n`;
+                
+                csv += `SUMMARY\n`;
+                csv += `Total Sales,RM${totalSales.toFixed(2)}\n`;
+                csv += `Total Orders,${totalOrders}\n`;
+                csv += `Average Order,RM${avgOrder.toFixed(2)}\n\n`;
+                
+                csv += 'Order ID,Customer,Email,Phone,Items,Total,Status,Date,Note\n';
+                
+                for (const o of filtered) {
+                    const items = (o.items || []).map(i => `${i.name} x${i.qty}`).join('; ');
+                    csv += `"${o.orderId}","${o.customer?.name || 'N/A'}","${o.customer?.email || ''}","${o.customer?.phone || ''}","${items}",${(o.total || 0).toFixed(2)},"completed","${new Date(o.createdAt).toLocaleDateString('en-MY')}","${(o.note || '').replace(/"/g, '""')}"\n`;
+                }
+
+                const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                link.download = `sales_report_${selectedMonth}.csv`;
+                link.click();
+                URL.revokeObjectURL(link.href);
+                
+                showToast('✅ Report exported!');
+
+            } catch (e) {
+                console.error('Export error:', e);
+                showToast('❌ Error exporting report', true);
             }
-
-            const now = new Date();
-            const filename = `sales_report_${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}.csv`;
-            
-            let csv = 'Order ID,Customer,Email,Phone,Total,Status,Date,Note\n';
-            
-            for (const order of salesStats.orders) {
-                const date = new Date(order.createdAt).toLocaleDateString('en-MY');
-                csv += `"${order.orderId}","${order.customer?.name || 'N/A'}","${order.customer?.email || ''}","${order.customer?.phone || ''}",${order.total || 0},"${order.status || 'pending'}","${date}","${(order.note || '').replace(/"/g, '""')}"\n`;
-            }
-
-            // Summary
-            csv += '\n\nSUMMARY\n';
-            csv += `Total Orders,${salesStats.totalOrders}\n`;
-            csv += `Completed Orders,${salesStats.completedOrders}\n`;
-            csv += `Total Sales,RM${salesStats.totalSales.toFixed(2)}\n`;
-            csv += `Monthly Sales,RM${salesStats.monthlySales.toFixed(2)}\n`;
-            csv += `Report Generated,${new Date().toLocaleString()}\n`;
-
-            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-            const link = document.createElement('a');
-            link.href = URL.createObjectURL(blob);
-            link.download = filename;
-            link.click();
-            URL.revokeObjectURL(link.href);
-            
-            showToast('✅ Report exported!');
         }
 
         // ============================================================
-        // SETTINGS - Terms & Shipping
+        // SETTINGS
         // ============================================================
         async function loadSettings() {
             try {
-                // Load terms
                 const termsRes = await fetch(`${WORKER_URL}/api/terms`);
                 if (termsRes.ok) {
                     const terms = await termsRes.text();
                     document.getElementById('termsEditor').value = terms;
                 }
-                
-                // Load shipping
                 const shippingRes = await fetch(`${WORKER_URL}/api/shipping`);
                 if (shippingRes.ok) {
                     const shipping = await shippingRes.text();
@@ -1208,7 +1443,7 @@
         }
 
         // ============================================================
-        // HERO - Load from worker
+        // HERO
         // ============================================================
         async function loadHero() {
             try {
@@ -1225,8 +1460,6 @@
             } catch (e) {
                 console.log('Hero fetch error:', e);
             }
-            
-            // Fallback to localStorage
             const saved = localStorage.getItem('socmegy_hero');
             if (saved) {
                 try {
@@ -1248,7 +1481,6 @@
                 subtitle: document.getElementById('heroSubtitle').value,
                 cta: document.getElementById('heroCta').value
             };
-            
             try {
                 const response = await fetch(`${WORKER_URL}/api/admin/hero`, {
                     method: 'POST',
@@ -1258,7 +1490,6 @@
                     },
                     body: JSON.stringify(hero)
                 });
-                
                 if (response.ok) {
                     localStorage.setItem('socmegy_hero', JSON.stringify(hero));
                     localStorage.setItem('socmegy_hero_updated', Date.now().toString());
@@ -1275,7 +1506,7 @@
         }
 
         // ============================================================
-        // TESTIMONIALS - Load from worker
+        // TESTIMONIALS
         // ============================================================
         async function loadTestimonials() {
             try {
@@ -1288,8 +1519,6 @@
             } catch (e) {
                 console.log('Testimonials fetch error:', e);
             }
-            
-            // Fallback to localStorage
             const saved = localStorage.getItem('socmegy_testimonials');
             if (saved) {
                 try { testimonials = JSON.parse(saved); } catch(e) { testimonials = getDefaultTestimonials(); }
@@ -1361,7 +1590,7 @@
         }
 
         // ============================================================
-        // GALLERY - Load from worker
+        // GALLERY
         // ============================================================
         async function loadGallery() {
             try {
@@ -1374,8 +1603,6 @@
             } catch (e) {
                 console.log('Gallery fetch error:', e);
             }
-            
-            // Fallback to localStorage
             const saved = localStorage.getItem('socmegy_gallery');
             if (saved) {
                 try { gallery = JSON.parse(saved); } catch(e) { gallery = getDefaultGallery(); }
@@ -1452,7 +1679,7 @@
         }
 
         // ============================================================
-        // PRODUCTS - Full function
+        // PRODUCTS
         // ============================================================
         async function loadProducts() {
             try {
@@ -1474,28 +1701,28 @@
                 grid.innerHTML = '<div class="loading"><i class="fas fa-box-open"></i> No products</div>';
                 return;
             }
-            grid.innerHTML = products.map(p => {
-                const category = getCategory(p.id);
-                return `
-                    <div class="product-card glass">
-                        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:6px;">
-                            <span class="category-tag">${category}</span>
-                            <span class="badge ${p.status || 'available'}">${p.status || 'available'}</span>
-                        </div>
-                        <div class="name">${p.name}</div>
-                        <div class="desc">${p.desc}</div>
-                        <div class="price">RM${(p.price || 0).toFixed(2)}</div>
-                        <div class="actions">
-                            <button class="btn-edit" onclick="editProduct(${p.id})"><i class="fas fa-edit"></i> Edit</button>
-                            <button class="btn-toggle" onclick="toggleStatus(${p.id})">
-                                <i class="fas fa-${p.status === 'available' ? 'pause' : 'play'}"></i>
-                                ${p.status === 'available' ? 'Set Off' : 'Set On'}
-                            </button>
-                            <button class="btn-delete" onclick="deleteProduct(${p.id})"><i class="fas fa-trash"></i> Del</button>
-                        </div>
-                    </div>
-                `;
-            }).join('');
+grid.innerHTML = products.map(p => {
+    const category = getCategory(p.id);
+    return `
+        <div class="product-card glass">
+            <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:6px;">
+                <span class="category-tag">${category}</span>
+                <span class="badge ${p.status || 'available'}">${p.status || 'available'}</span>
+            </div>
+            <div class="name">${p.name}</div>
+            <div class="desc">${p.desc}</div>
+            <div class="price">RM${(p.price || 0).toFixed(2)}</div>
+            <div class="actions">
+                <button class="btn-edit" onclick="editProduct(${p.id})"><i class="fas fa-edit"></i> Edit</button>
+                <button class="btn-toggle" onclick="toggleStatus(${p.id})">
+                    <i class="fas fa-${p.status === 'available' ? 'pause' : 'play'}"></i>
+                    ${p.status === 'available' ? 'Set Off' : 'Set On'}
+                </button>
+                <button class="btn-delete" onclick="deleteProduct(${p.id})"><i class="fas fa-trash"></i> Del</button>
+            </div>
+        </div>
+    `;
+}).join('');
         }
 
         function editProduct(id) {
@@ -1508,10 +1735,8 @@
         async function toggleStatus(id) {
             const p = products.find(x => x.id === id);
             if (!p) return;
-            
             const newStatus = p.status === 'available' ? 'not_available' : 'available';
             const updatedProduct = { ...p, status: newStatus };
-            
             try {
                 const response = await fetch(`${WORKER_URL}/api/admin/product`, {
                     method: 'POST',
@@ -1521,9 +1746,7 @@
                     },
                     body: JSON.stringify(updatedProduct)
                 });
-                
                 if (!response.ok) throw new Error('Toggle status failed');
-                
                 await loadProducts();
                 updateStats();
                 showToast('✅ Status updated to ' + newStatus);
@@ -1540,13 +1763,10 @@
                     method: 'DELETE',
                     headers: { 'Authorization': authToken || 'Bearer socmegy2026' }
                 });
-                
                 if (!response.ok) throw new Error('Delete failed');
-                
                 const cats = getCategories();
                 delete cats[id];
                 localStorage.setItem('socmegy_product_categories', JSON.stringify(cats));
-                
                 await loadProducts();
                 updateStats();
                 showToast('🗑️ Product deleted');
@@ -1638,7 +1858,7 @@
         }
 
         // ============================================================
-        // EXPORT PDF - Standard layout (mobile & desktop same)
+        // EXPORT PDF
         // ============================================================
         function exportPDF(orderId) {
             const order = orders.find(o => o.orderId === orderId);
@@ -1897,6 +2117,8 @@
                             <option value="TikTok" ${category === 'TikTok' ? 'selected' : ''}>TikTok</option>
                             <option value="Instagram" ${category === 'Instagram' ? 'selected' : ''}>Instagram</option>
                             <option value="YouTube" ${category === 'YouTube' ? 'selected' : ''}>YouTube</option>
+                            <option value="Facebook" ${category === 'Facebook' ? 'selected' : ''}>Facebook</option>
+                            <option value="Threads" ${category === 'Threads' ? 'selected' : ''}>Threads</option>
                             <option value="Others" ${category === 'Others' ? 'selected' : ''}>Others</option>
                         </select>
                     </div>
@@ -1931,6 +2153,8 @@
                             <option value="TikTok" ${g.category === 'TikTok' ? 'selected' : ''}>TikTok</option>
                             <option value="Instagram" ${g.category === 'Instagram' ? 'selected' : ''}>Instagram</option>
                             <option value="YouTube" ${g.category === 'YouTube' ? 'selected' : ''}>YouTube</option>
+                            <option value="Facebook" ${g.category === 'Facebook' ? 'selected' : ''}>Facebook</option>
+                            <option value="Threads" ${g.category === 'Threads' ? 'selected' : ''}>Threads</option>
                             <option value="Others" ${g.category === 'Others' ? 'selected' : ''}>Others</option>
                         </select>
                     </div>
@@ -2044,10 +2268,12 @@
         // ============================================================
         // INIT
         // ============================================================
-        console.log('✨ Socmegy Admin');
+        console.log('✨ Socmegy Admin - Sama macam website');
         console.log('🔑 Password stored in Cloudflare KV');
-        console.log('📌 All data synced to worker');
-        console.log('📌 Sales stats & export report available');
+        console.log('📌 Header sticky macam website');
+        console.log('📌 Padding & margin ikut website');
+        console.log('📌 Tabs fit to screen');
+        console.log('📌 Report: Monthly export dengan semua details');
     </script>
 </body>
 </html>
