@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
-    <title>Socmegy - Admin</title>
+    <title>Socmegy - Handling</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     <link rel="icon" href="logo.png" />
@@ -794,10 +794,10 @@
         let testimonials = [];
         let gallery = [];
         let editingProductId = null;
-        let authToken = null; // Store token after login
+        let authToken = null;
 
         // ============================================================
-        // CATEGORY STORAGE (localStorage)
+        // CATEGORY STORAGE (localStorage - for admin display only)
         // ============================================================
         function getCategories() {
             try {
@@ -847,7 +847,6 @@
                 return;
             }
 
-            // Show loading state
             loginBtn.disabled = true;
             loginLoading.style.display = 'block';
             loginError.textContent = '';
@@ -862,9 +861,7 @@
                 const data = await response.json();
 
                 if (data.success) {
-                    // Store token for subsequent API calls
                     authToken = `Bearer ${pwd}`;
-                    
                     document.getElementById('loginScreen').style.display = 'none';
                     document.getElementById('adminPanel').style.display = 'block';
                     loginError.textContent = '';
@@ -879,7 +876,6 @@
                 showToast('❌ Connection error!', true);
             }
 
-            // Reset loading state
             loginBtn.disabled = false;
             loginLoading.style.display = 'none';
         }
@@ -907,6 +903,7 @@
             if (tab === 'orders') loadOrders();
             if (tab === 'testimonials') loadTestimonials();
             if (tab === 'gallery') loadGallery();
+            if (tab === 'hero') loadHero();
         }
 
         // ============================================================
@@ -918,9 +915,24 @@
         }
 
         // ============================================================
-        // HERO
+        // HERO - Load from worker, fallback to localStorage
         // ============================================================
-        function loadHero() {
+        async function loadHero() {
+            try {
+                const response = await fetch(`${WORKER_URL}/api/hero`);
+                if (response.ok) {
+                    const hero = await response.json();
+                    document.getElementById('heroImage').value = hero.image || '';
+                    document.getElementById('heroTitle').value = hero.title || 'Elevate Your Digital Presence';
+                    document.getElementById('heroSubtitle').value = hero.subtitle || 'Real followers, real engagement. Premium social media growth services.';
+                    document.getElementById('heroCta').value = hero.cta || 'Explore Services';
+                    return;
+                }
+            } catch (e) {
+                console.log('Hero fetch error, using localStorage:', e);
+            }
+            
+            // Fallback to localStorage
             const saved = localStorage.getItem('socmegy_hero');
             if (saved) {
                 try {
@@ -933,20 +945,220 @@
             }
         }
 
-        function saveHero() {
+        async function saveHero() {
             const hero = {
                 image: document.getElementById('heroImage').value,
                 title: document.getElementById('heroTitle').value,
                 subtitle: document.getElementById('heroSubtitle').value,
                 cta: document.getElementById('heroCta').value
             };
-            localStorage.setItem('socmegy_hero', JSON.stringify(hero));
-            localStorage.setItem('socmegy_hero_updated', Date.now().toString());
-            showToast('✅ Hero settings saved!');
+            
+            try {
+                const response = await fetch(`${WORKER_URL}/api/admin/hero`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': authToken || 'Bearer socmegy2026'
+                    },
+                    body: JSON.stringify(hero)
+                });
+                
+                if (response.ok) {
+                    // Also save to localStorage as backup
+                    localStorage.setItem('socmegy_hero', JSON.stringify(hero));
+                    localStorage.setItem('socmegy_hero_updated', Date.now().toString());
+                    showToast('✅ Hero settings saved to server!');
+                } else {
+                    throw new Error('Server save failed');
+                }
+            } catch (e) {
+                console.error('Save hero error:', e);
+                // Fallback to localStorage
+                localStorage.setItem('socmegy_hero', JSON.stringify(hero));
+                localStorage.setItem('socmegy_hero_updated', Date.now().toString());
+                showToast('⚠️ Saved locally only (server error)');
+            }
         }
 
         // ============================================================
-        // PRODUCTS - FULL FUNCTION WITH CATEGORY
+        // TESTIMONIALS - Load from worker, fallback to localStorage
+        // ============================================================
+        async function loadTestimonials() {
+            try {
+                const response = await fetch(`${WORKER_URL}/api/testimonials`);
+                if (response.ok) {
+                    testimonials = await response.json();
+                    renderTestimonials();
+                    return;
+                }
+            } catch (e) {
+                console.log('Testimonials fetch error, using localStorage:', e);
+            }
+            
+            // Fallback to localStorage
+            const saved = localStorage.getItem('socmegy_testimonials');
+            if (saved) {
+                try { testimonials = JSON.parse(saved); } catch(e) { testimonials = getDefaultTestimonials(); }
+            } else {
+                testimonials = getDefaultTestimonials();
+            }
+            renderTestimonials();
+        }
+
+        function getDefaultTestimonials() {
+            return [
+                { name: 'Aina R.', text: 'Super fast service! Followers started coming in within 2 hours. Very satisfied!', stars: 5 },
+                { name: 'Farid Z.', text: 'Quality followers with real engagement. My account growth has been incredible. Highly recommended!', stars: 5 },
+                { name: 'Sarah H.', text: 'Affordable pricing and excellent customer support. They really care about their clients.', stars: 4 },
+                { name: 'Adam B.', text: 'My Instagram blew up after using Socmegy. Best investment I\'ve made for my brand.', stars: 5 }
+            ];
+        }
+
+        function renderTestimonials() {
+            const container = document.getElementById('testimonialList');
+            if (!testimonials.length) {
+                container.innerHTML = '<div class="loading"><i class="fas fa-comment"></i> No testimonials</div>';
+                return;
+            }
+            container.innerHTML = testimonials.map((t, i) => `
+                <div class="list-item glass">
+                    <div class="info">
+                        <div class="main">"${t.text}"</div>
+                        <div class="sub">${t.name} • ${'★'.repeat(t.stars)}${'☆'.repeat(5 - t.stars)}</div>
+                    </div>
+                    <div class="actions">
+                        <button class="btn-edit" onclick="editTestimonial(${i})"><i class="fas fa-edit"></i></button>
+                        <button class="btn-delete" onclick="deleteTestimonial(${i})"><i class="fas fa-trash"></i></button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        async function deleteTestimonial(i) {
+            if (!confirm('Delete this testimonial?')) return;
+            testimonials.splice(i, 1);
+            await saveTestimonialsToServer();
+            renderTestimonials();
+            showToast('🗑️ Testimonial deleted');
+        }
+
+        function editTestimonial(i) {
+            openModal('testimonial', testimonials[i], i);
+        }
+
+        async function saveTestimonialsToServer() {
+            try {
+                const response = await fetch(`${WORKER_URL}/api/admin/testimonials`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': authToken || 'Bearer socmegy2026'
+                    },
+                    body: JSON.stringify(testimonials)
+                });
+                if (response.ok) {
+                    localStorage.setItem('socmegy_testimonials', JSON.stringify(testimonials));
+                    localStorage.setItem('socmegy_testimonials_updated', Date.now().toString());
+                }
+            } catch (e) {
+                console.error('Save testimonials error:', e);
+                localStorage.setItem('socmegy_testimonials', JSON.stringify(testimonials));
+            }
+        }
+
+        // ============================================================
+        // GALLERY - Load from worker, fallback to localStorage
+        // ============================================================
+        async function loadGallery() {
+            try {
+                const response = await fetch(`${WORKER_URL}/api/gallery`);
+                if (response.ok) {
+                    gallery = await response.json();
+                    renderGallery();
+                    return;
+                }
+            } catch (e) {
+                console.log('Gallery fetch error, using localStorage:', e);
+            }
+            
+            // Fallback to localStorage
+            const saved = localStorage.getItem('socmegy_gallery');
+            if (saved) {
+                try { gallery = JSON.parse(saved); } catch(e) { gallery = getDefaultGallery(); }
+            } else {
+                gallery = getDefaultGallery();
+            }
+            renderGallery();
+        }
+
+        function getDefaultGallery() {
+            return [
+                { src: 'https://picsum.photos/seed/g1/400/400', category: 'TikTok' },
+                { src: 'https://picsum.photos/seed/g2/400/400', category: 'TikTok' },
+                { src: 'https://picsum.photos/seed/g3/400/400', category: 'TikTok' },
+                { src: 'https://picsum.photos/seed/g4/400/400', category: 'Instagram' },
+                { src: 'https://picsum.photos/seed/g5/400/400', category: 'Instagram' },
+                { src: 'https://picsum.photos/seed/g6/400/400', category: 'Instagram' }
+            ];
+        }
+
+        function renderGallery() {
+            const container = document.getElementById('galleryList');
+            if (!gallery.length) {
+                container.innerHTML = '<div class="loading"><i class="fas fa-images"></i> No images</div>';
+                return;
+            }
+            container.innerHTML = gallery.map((g, i) => `
+                <div class="list-item glass">
+                    <div style="display:flex;align-items:center;gap:12px;flex:1;">
+                        <div class="gallery-preview"><img src="${g.src}" alt="${g.category}" onerror="this.parentElement.innerHTML='<i class=\\'fas fa-image\\' style=\\'color:#666;font-size:1.2rem;display:flex;align-items:center;justify-content:center;height:100%;\\'></i>'" /></div>
+                        <div>
+                            <div class="main"><strong>${g.category}</strong></div>
+                            <div class="sub" style="font-size:0.7rem;color:#8a8a8a;word-break:break-all;">${g.src.substring(0, 40)}${g.src.length > 40 ? '...' : ''}</div>
+                        </div>
+                    </div>
+                    <div class="actions">
+                        <button class="btn-edit" onclick="editGallery(${i})"><i class="fas fa-edit"></i></button>
+                        <button class="btn-delete" onclick="deleteGallery(${i})"><i class="fas fa-trash"></i></button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        async function deleteGallery(i) {
+            if (!confirm('Delete this image?')) return;
+            gallery.splice(i, 1);
+            await saveGalleryToServer();
+            renderGallery();
+            showToast('🗑️ Image deleted');
+        }
+
+        function editGallery(i) {
+            openModal('gallery', gallery[i], i);
+        }
+
+        async function saveGalleryToServer() {
+            try {
+                const response = await fetch(`${WORKER_URL}/api/admin/gallery`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': authToken || 'Bearer socmegy2026'
+                    },
+                    body: JSON.stringify(gallery)
+                });
+                if (response.ok) {
+                    localStorage.setItem('socmegy_gallery', JSON.stringify(gallery));
+                    localStorage.setItem('socmegy_gallery_updated', Date.now().toString());
+                }
+            } catch (e) {
+                console.error('Save gallery error:', e);
+                localStorage.setItem('socmegy_gallery', JSON.stringify(gallery));
+            }
+        }
+
+        // ============================================================
+        // PRODUCTS - Full function
         // ============================================================
         async function loadProducts() {
             try {
@@ -1037,7 +1249,6 @@
                 
                 if (!response.ok) throw new Error('Delete failed');
                 
-                // Remove category from localStorage
                 const cats = getCategories();
                 delete cats[id];
                 localStorage.setItem('socmegy_product_categories', JSON.stringify(cats));
@@ -1049,123 +1260,6 @@
                 console.error('Delete error:', e);
                 showToast('❌ Error: ' + e.message, true); 
             }
-        }
-
-        // ============================================================
-        // TESTIMONIALS
-        // ============================================================
-        function loadTestimonials() {
-            const saved = localStorage.getItem('socmegy_testimonials');
-            if (saved) {
-                try { testimonials = JSON.parse(saved); } catch(e) { testimonials = getDefaultTestimonials(); }
-            } else {
-                testimonials = getDefaultTestimonials();
-                localStorage.setItem('socmegy_testimonials', JSON.stringify(testimonials));
-            }
-            renderTestimonials();
-        }
-
-        function getDefaultTestimonials() {
-            return [
-                { name: 'Aina R.', text: 'Super fast service! Followers started coming in within 2 hours. Very satisfied!', stars: 5 },
-                { name: 'Farid Z.', text: 'Quality followers with real engagement. My account growth has been incredible. Highly recommended!', stars: 5 },
-                { name: 'Sarah H.', text: 'Affordable pricing and excellent customer support. They really care about their clients.', stars: 4 },
-                { name: 'Adam B.', text: 'My Instagram blew up after using Socmegy. Best investment I\'ve made for my brand.', stars: 5 }
-            ];
-        }
-
-        function renderTestimonials() {
-            const container = document.getElementById('testimonialList');
-            if (!testimonials.length) {
-                container.innerHTML = '<div class="loading"><i class="fas fa-comment"></i> No testimonials</div>';
-                return;
-            }
-            container.innerHTML = testimonials.map((t, i) => `
-                <div class="list-item glass">
-                    <div class="info">
-                        <div class="main">"${t.text}"</div>
-                        <div class="sub">${t.name} • ${'★'.repeat(t.stars)}${'☆'.repeat(5 - t.stars)}</div>
-                    </div>
-                    <div class="actions">
-                        <button class="btn-edit" onclick="editTestimonial(${i})"><i class="fas fa-edit"></i></button>
-                        <button class="btn-delete" onclick="deleteTestimonial(${i})"><i class="fas fa-trash"></i></button>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        function deleteTestimonial(i) {
-            if (!confirm('Delete this testimonial?')) return;
-            testimonials.splice(i, 1);
-            localStorage.setItem('socmegy_testimonials', JSON.stringify(testimonials));
-            localStorage.setItem('socmegy_testimonials_updated', Date.now().toString());
-            renderTestimonials();
-            showToast('🗑️ Testimonial deleted');
-        }
-
-        function editTestimonial(i) {
-            openModal('testimonial', testimonials[i], i);
-        }
-
-        // ============================================================
-        // GALLERY
-        // ============================================================
-        function loadGallery() {
-            const saved = localStorage.getItem('socmegy_gallery');
-            if (saved) {
-                try { gallery = JSON.parse(saved); } catch(e) { gallery = getDefaultGallery(); }
-            } else {
-                gallery = getDefaultGallery();
-                localStorage.setItem('socmegy_gallery', JSON.stringify(gallery));
-            }
-            renderGallery();
-        }
-
-        function getDefaultGallery() {
-            return [
-                { src: 'https://picsum.photos/seed/g1/400/400', category: 'TikTok' },
-                { src: 'https://picsum.photos/seed/g2/400/400', category: 'TikTok' },
-                { src: 'https://picsum.photos/seed/g3/400/400', category: 'TikTok' },
-                { src: 'https://picsum.photos/seed/g4/400/400', category: 'Instagram' },
-                { src: 'https://picsum.photos/seed/g5/400/400', category: 'Instagram' },
-                { src: 'https://picsum.photos/seed/g6/400/400', category: 'Instagram' }
-            ];
-        }
-
-        function renderGallery() {
-            const container = document.getElementById('galleryList');
-            if (!gallery.length) {
-                container.innerHTML = '<div class="loading"><i class="fas fa-images"></i> No images</div>';
-                return;
-            }
-            container.innerHTML = gallery.map((g, i) => `
-                <div class="list-item glass">
-                    <div style="display:flex;align-items:center;gap:12px;flex:1;">
-                        <div class="gallery-preview"><img src="${g.src}" alt="${g.category}" onerror="this.parentElement.innerHTML='<i class=\\'fas fa-image\\' style=\\'color:#666;font-size:1.2rem;display:flex;align-items:center;justify-content:center;height:100%;\\'></i>'" /></div>
-                        <div>
-                            <div class="main"><strong>${g.category}</strong></div>
-                            <div class="sub" style="font-size:0.7rem;color:#8a8a8a;word-break:break-all;">${g.src.substring(0, 40)}${g.src.length > 40 ? '...' : ''}</div>
-                        </div>
-                    </div>
-                    <div class="actions">
-                        <button class="btn-edit" onclick="editGallery(${i})"><i class="fas fa-edit"></i></button>
-                        <button class="btn-delete" onclick="deleteGallery(${i})"><i class="fas fa-trash"></i></button>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        function deleteGallery(i) {
-            if (!confirm('Delete this image?')) return;
-            gallery.splice(i, 1);
-            localStorage.setItem('socmegy_gallery', JSON.stringify(gallery));
-            localStorage.setItem('socmegy_gallery_updated', Date.now().toString());
-            renderGallery();
-            showToast('🗑️ Image deleted');
-        }
-
-        function editGallery(i) {
-            openModal('gallery', gallery[i], i);
         }
 
         // ============================================================
@@ -1609,8 +1703,6 @@
                         category: category
                     };
                     
-                    console.log('📦 Saving product:', productData);
-                    
                     const response = await fetch(`${WORKER_URL}/api/admin/product`, {
                         method: 'POST',
                         headers: { 
@@ -1621,13 +1713,11 @@
                     });
 
                     const result = await response.json();
-                    console.log('📥 Response:', result);
 
                     if (!response.ok) {
                         throw new Error(result.error || 'Failed to save product');
                     }
                     
-                    // Save category to localStorage
                     setCategory(id, category);
                     
                     await loadProducts();
@@ -1648,8 +1738,7 @@
                         testimonials.push(item);
                         showToast('✅ Testimonial added');
                     }
-                    localStorage.setItem('socmegy_testimonials', JSON.stringify(testimonials));
-                    localStorage.setItem('socmegy_testimonials_updated', Date.now().toString());
+                    await saveTestimonialsToServer();
                     renderTestimonials();
                     closeModal();
                 } else if (type === 'gallery') {
@@ -1664,8 +1753,7 @@
                         gallery.push(item);
                         showToast('✅ Gallery image added');
                     }
-                    localStorage.setItem('socmegy_gallery', JSON.stringify(gallery));
-                    localStorage.setItem('socmegy_gallery_updated', Date.now().toString());
+                    await saveGalleryToServer();
                     renderGallery();
                     closeModal();
                 }
@@ -1684,9 +1772,8 @@
         // ============================================================
         console.log('✨ Socmegy Admin');
         console.log('🔑 Password stored in Cloudflare KV');
-        console.log('📌 Products: FULL FUNCTION');
-        console.log('   - Add, Edit, Delete, Toggle Status');
-        console.log('   - Category saved in localStorage & worker');
+        console.log('📌 Hero, Testimonials, Gallery - SYNC to worker');
+        console.log('📌 Products - FULL FUNCTION');
     </script>
 </body>
 </html>
