@@ -83,9 +83,9 @@
 
         /* ===== CONTAINER ===== */
         .container {
-            max-width: 580px;
+            max-width: 600px;
             width: 100%;
-            padding: 48px 40px;
+            padding: 40px 36px;
             animation: slideUp 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
         }
 
@@ -373,7 +373,7 @@
         /* ===== RESPONSIVE ===== */
         @media (max-width: 600px) {
             body { padding: 12px; }
-            .container { padding: 28px 20px; }
+            .container { padding: 24px 18px; }
             .row-3 { grid-template-columns: 1fr; gap: 8px; }
             .row-2 { grid-template-columns: 1fr; gap: 8px; }
             .header { flex-direction: column; text-align: center; }
@@ -389,10 +389,11 @@
         }
 
         @media (max-width: 400px) {
-            .container { padding: 20px 14px; }
+            .container { padding: 16px 12px; }
             .header .brand-group .brand { font-size: 1rem; }
             .header .logo-img { width: 36px; height: 36px; }
             .field .value { font-size: 0.75rem; }
+            .btn { font-size: 0.75rem; padding: 8px 12px; }
         }
     </style>
 </head>
@@ -622,19 +623,19 @@
                                 font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; 
                                 background: #f5f2ed; 
                                 color: #111; 
-                                padding: 30px; 
+                                padding: 20px; 
                                 display: flex;
                                 justify-content: center;
                                 min-height: 100vh;
                             }
                             .invoice { 
-                                max-width: 650px; 
+                                max-width: 700px; 
                                 width: 100%;
                                 margin: 0 auto; 
                                 background: #ffffff; 
                                 border-radius: 12px; 
                                 box-shadow: 0 2px 40px rgba(0,0,0,0.06); 
-                                padding: 28px 32px; 
+                                padding: 24px 28px; 
                             }
                             .header {
                                 display: flex;
@@ -652,9 +653,7 @@
                                 border: 2px solid rgba(212,167,67,0.15);
                                 flex-shrink: 0;
                             }
-                            .header .brand-group {
-                                flex: 1;
-                            }
+                            .header .brand-group { flex: 1; }
                             .header .brand-group .brand {
                                 font-size: 1.4rem;
                                 font-weight: 700;
@@ -681,10 +680,7 @@
                                 letter-spacing: 0.8px;
                                 display: block;
                             }
-                            .order-row .value {
-                                font-size: 0.9rem;
-                                font-weight: 600;
-                            }
+                            .order-row .value { font-size: 0.9rem; font-weight: 600; }
                             .row-2 {
                                 display: grid;
                                 grid-template-columns: 1fr 1fr;
@@ -701,10 +697,7 @@
                                 letter-spacing: 0.8px;
                                 display: block;
                             }
-                            .field .value {
-                                font-size: 0.85rem;
-                                margin-top: 2px;
-                            }
+                            .field .value { font-size: 0.85rem; margin-top: 2px; }
                             .field .value .status-badge {
                                 display: inline-block;
                                 padding: 2px 14px;
@@ -715,10 +708,7 @@
                                 background: #d4edda;
                                 color: #155724;
                             }
-                            .field .sub-text {
-                                color: #666;
-                                font-size: 0.78rem;
-                            }
+                            .field .sub-text { color: #666; font-size: 0.78rem; }
                             table {
                                 width: 100%;
                                 border-collapse: collapse;
@@ -734,9 +724,7 @@
                                 color: #888;
                                 border-bottom: 1px solid #eee;
                             }
-                            th:last-child, td:last-child {
-                                text-align: right;
-                            }
+                            th:last-child, td:last-child { text-align: right; }
                             td {
                                 padding: 4px 8px;
                                 border-bottom: 1px solid #f0f0f0;
@@ -760,11 +748,7 @@
                                 border-top: 1px solid #eee;
                             }
                             .footer .gold { color: #d4a743; font-weight: 600; }
-                            .footer .sub-footer {
-                                font-size: 0.55rem;
-                                color: #ccc;
-                                margin-top: 2px;
-                            }
+                            .footer .sub-footer { font-size: 0.55rem; color: #ccc; margin-top: 2px; }
                             @media (max-width: 600px) {
                                 body { padding: 12px; }
                                 .invoice { padding: 16px; }
@@ -789,12 +773,10 @@
                                     <div class="tagline">Your Social Media Booster</div>
                                 </div>
                             </div>
-
                             <div class="order-row">
                                 <span class="label">Order</span>
                                 <span class="value">${order.orderId}</span>
                             </div>
-
                             <div class="row-2">
                                 <div class="field">
                                     <label>Date</label>
@@ -805,7 +787,6 @@
                                     <div class="value"><span class="status-badge">${statusDisplay}</span></div>
                                 </div>
                             </div>
-
                             <div class="row-2">
                                 <div class="field">
                                     <label>Customer</label>
@@ -818,14 +799,11 @@
                                     <div class="value" style="color:#666;font-size:0.78rem;word-break:break-all;">${order.note || '-'}</div>
                                 </div>
                             </div>
-
                             <table>
                                 <thead><tr><th>Item</th><th style="text-align:center;">Qty</th><th>Price</th></tr></thead>
                                 <tbody>${itemsHtml}</tbody>
                             </table>
-
                             <div class="total-row">Total: RM${(order.total || 0).toFixed(2)}</div>
-
                             <div class="footer">
                                 <div>Thank you for choosing <span class="gold">Socmegy</span>!</div>
                                 <div class="sub-footer">This is a system-generated invoice.</div>
