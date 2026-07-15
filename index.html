@@ -680,6 +680,160 @@
         }
         footer .social-links a:hover { color: var(--gold); transform: translateY(-4px); border-color: rgba(212,167,67,0.1); }
         footer .footer-text { opacity: 0.5; font-size: 0.8rem; }
+        
+        /* ============================================================
+           QUICK LINKS - ELOCK
+           ============================================================ */
+        .quick-links {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin: 12px 0 16px;
+            flex-wrap: wrap;
+        }
+        .quick-links button {
+            background: none;
+            border: none;
+            color: rgba(255,255,255,0.35);
+            font-size: 0.7rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: inherit;
+            letter-spacing: 0.3px;
+            position: relative;
+            padding: 4px 0;
+        }
+        .quick-links button::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--gold);
+            transition: width 0.3s;
+        }
+        .quick-links button:hover { 
+            color: var(--text-primary); 
+        }
+        .quick-links button:hover::after {
+            width: 100%;
+        }
+        .quick-links .divider {
+            color: rgba(255,255,255,0.1);
+            font-size: 0.6rem;
+        }
+
+        /* ============================================================
+           QUICK LINK MODAL - LIQUID GLASS
+           ============================================================ */
+        .modal-quick {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            z-index: 500;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            animation: modalFade 0.3s ease;
+        }
+        .modal-quick.active { display: flex; }
+        
+        @keyframes modalFade {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .modal-quick .modal-box {
+            background: rgba(20,20,20,0.92);
+            backdrop-filter: blur(32px) saturate(1.6);
+            -webkit-backdrop-filter: blur(32px) saturate(1.6);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 24px;
+            padding: 32px 36px;
+            max-width: 560px;
+            width: 100%;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 24px 80px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.04);
+            animation: modalSlide 0.3s ease;
+        }
+        .modal-quick .modal-box::before {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            border-radius: inherit;
+            padding: 1px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(212,167,67,0.04) 30%, rgba(255,255,255,0) 50%, rgba(212,167,67,0.04) 70%, rgba(255,255,255,0.06) 100%);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+        }
+        
+        @keyframes modalSlide {
+            from { opacity: 0; transform: translateY(20px) scale(0.96); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        
+        .modal-quick .modal-box h2 {
+            color: #d4a743;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 16px;
+            padding-right: 40px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .modal-quick .modal-box h2 i {
+            color: #d4a743;
+            font-size: 1rem;
+            opacity: 0.6;
+        }
+        .modal-quick .modal-box .close-modal {
+            position: absolute;
+            top: 18px;
+            right: 20px;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            color: var(--text-muted);
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-quick .modal-box .close-modal:hover { 
+            background: rgba(255,255,255,0.08);
+            border-color: rgba(212,167,67,0.2);
+            color: var(--text-primary);
+        }
+        .modal-quick .modal-box .content {
+            color: #b0b0b0;
+            font-size: 0.9rem;
+            line-height: 1.9;
+            white-space: pre-wrap;
+            max-height: 50vh;
+            overflow-y: auto;
+            padding-right: 4px;
+        }
+        .modal-quick .modal-box .content::-webkit-scrollbar {
+            width: 3px;
+        }
+        .modal-quick .modal-box .content::-webkit-scrollbar-thumb {
+            background: rgba(212,167,67,0.2);
+            border-radius: 4px;
+        }
 
         /* ============================================================
            CART
@@ -1037,6 +1191,10 @@
             .lightbox-nav.next { right: 8px; }
             .lightbox-close { top: 16px; right: 20px; font-size: 1.8rem; }
             .lightbox { padding: 16px; }
+            .modal-quick .modal-box { padding: 24px 20px; margin: 10px; }
+            .modal-quick .modal-box h2 { font-size: 1rem; }
+            .quick-links { gap: 14px; }
+            .quick-links button { font-size: 0.65rem; }
         }
 
         @media (max-width: 480px) {
@@ -1067,6 +1225,12 @@
             .lightbox-nav { padding: 10px 12px; font-size: 1rem; z-index: 1000; background: rgba(0,0,0,0.8); }
             .lightbox-nav.prev { left: 4px; }
             .lightbox-nav.next { right: 4px; }
+            .modal-quick .modal-box { padding: 18px 14px; }
+            .modal-quick .modal-box h2 { font-size: 0.9rem; }
+            .modal-quick .modal-box .content { font-size: 0.8rem; line-height: 1.7; }
+            .quick-links { gap: 10px; }
+            .quick-links button { font-size: 0.6rem; }
+            .quick-links .divider { font-size: 0.5rem; }
         }
 
         @media (min-width: 769px) {
@@ -1079,6 +1243,15 @@
 
     <!-- ===== TOAST ===== -->
     <div id="toast" class="toast"><i class="fas fa-check-circle"></i> <span id="toastMsg">Added to cart!</span></div>
+
+    <!-- ===== QUICK LINK MODAL ===== -->
+    <div class="modal-quick" id="quickModal">
+        <div class="modal-box">
+            <button class="close-modal" onclick="closeQuickModal()">&times;</button>
+            <h2><i class="fas fa-file-contract"></i> <span id="quickModalTitle">Terms & Conditions</span></h2>
+            <div class="content" id="quickModalContent">Loading...</div>
+        </div>
+    </div>
 
     <!-- ===== FLOATING BUTTONS ===== -->
     <div class="float-buttons">
@@ -1203,6 +1376,11 @@
                 <a href="https://instagram.com/socmegy" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
                 <a href="https://facebook.com/socmegy" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
             </div>
+            <div class="quick-links">
+                <button onclick="openQuickModal('terms')">Terms &amp; Conditions</button>
+                <span class="divider">•</span>
+                <button onclick="openQuickModal('shipping')">Shipping Info</button>
+            </div>
             <div class="footer-text">
                 &copy;2026 <span class="gold">Socmegy.</span> All rights reserved.
             </div>
@@ -1300,6 +1478,59 @@
         try { const saved = localStorage.getItem(STORAGE_KEY); if (saved) cart = JSON.parse(saved); } catch (_) {}
 
         // ============================================================
+        // QUICK MODAL - Terms & Shipping
+        // ============================================================
+        async function openQuickModal(type) {
+            const modal = document.getElementById('quickModal');
+            const title = document.getElementById('quickModalTitle');
+            const content = document.getElementById('quickModalContent');
+            
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            
+            if (type === 'terms') {
+                title.textContent = 'Terms & Conditions';
+                try {
+                    const res = await fetch(`${WORKER_URL}/api/terms`);
+                    const text = await res.text();
+                    content.textContent = text || 'No terms available.';
+                } catch {
+                    content.textContent = 'Failed to load terms. Please try again.';
+                }
+            } else if (type === 'shipping') {
+                title.textContent = 'Shipping Info';
+                try {
+                    const res = await fetch(`${WORKER_URL}/api/shipping`);
+                    const text = await res.text();
+                    content.textContent = text || 'No shipping info available.';
+                } catch {
+                    content.textContent = 'Failed to load shipping info. Please try again.';
+                }
+            }
+        }
+
+        function closeQuickModal() {
+            document.getElementById('quickModal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // Click outside to close
+        document.getElementById('quickModal').addEventListener('click', function(e) {
+            if (e.target === this) closeQuickModal();
+        });
+
+        // ESC to close
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeQuickModal();
+                closeLightbox();
+                closeCheckoutModal();
+                closeCart();
+                closeMobileMenu();
+            }
+        });
+
+        // ============================================================
         // LOAD HERO FROM WORKER
         // ============================================================
         async function loadHeroFromWorker() {
@@ -1308,25 +1539,23 @@
                 if (response.ok) {
                     const hero = await response.json();
                     
-                    // Update hero background
                     const heroBg = document.getElementById('heroBg').querySelector('img');
                     if (heroBg && hero.image) heroBg.src = hero.image;
                     
-                    // Update hero title (keep typing animation)
                     if (hero.title) {
-                        // Update the first phrase for typing animation
+                        // Update typing phrases
                         const cleanTitle = hero.title.replace(/<[^>]*>/g, '');
-                        // We'll keep the typing animation with custom title
-                        // The typing animation will use the first phrase from phrases array
-                        // We'll update it below
+                        typingPhrases[0] = cleanTitle + ' <span class="highlight">Digital Presence</span>';
+                        // Reset typing
+                        phraseIndex = 0;
+                        charIndex = 0;
+                        isDeleting = false;
                     }
                     
-                    // Update subtitle
                     if (hero.subtitle) {
                         document.getElementById('heroSubtitle').textContent = hero.subtitle;
                     }
                     
-                    // Update CTA
                     if (hero.cta) {
                         document.getElementById('heroCta').innerHTML = '<i class="fas fa-rocket"></i> ' + hero.cta;
                     }
@@ -1334,7 +1563,7 @@
                     return hero;
                 }
             } catch (e) {
-                console.log('Hero fetch error, using localStorage:', e);
+                console.log('Hero fetch error:', e);
             }
             return null;
         }
@@ -1346,13 +1575,17 @@
             try {
                 const response = await fetch(`${WORKER_URL}/api/testimonials`);
                 if (response.ok) {
-                    const testimonials = await response.json();
-                    return testimonials;
+                    return await response.json();
                 }
             } catch (e) {
-                console.log('Testimonials fetch error, using default:', e);
+                console.log('Testimonials fetch error:', e);
             }
-            return null;
+            return [
+                { name: 'Aina R.', text: 'Super fast service! Followers started coming in within 2 hours. Very satisfied!', stars: 5 },
+                { name: 'Farid Z.', text: 'Quality followers with real engagement. My account growth has been incredible. Highly recommended!', stars: 5 },
+                { name: 'Sarah H.', text: 'Affordable pricing and excellent customer support. They really care about their clients.', stars: 4 },
+                { name: 'Adam B.', text: 'My Instagram blew up after using Socmegy. Best investment I\'ve made for my brand.', stars: 5 }
+            ];
         }
 
         // ============================================================
@@ -1362,17 +1595,23 @@
             try {
                 const response = await fetch(`${WORKER_URL}/api/gallery`);
                 if (response.ok) {
-                    const gallery = await response.json();
-                    return gallery;
+                    return await response.json();
                 }
             } catch (e) {
-                console.log('Gallery fetch error, using default:', e);
+                console.log('Gallery fetch error:', e);
             }
-            return null;
+            return [
+                { src: 'https://picsum.photos/seed/g1/400/400', category: 'TikTok' },
+                { src: 'https://picsum.photos/seed/g2/400/400', category: 'TikTok' },
+                { src: 'https://picsum.photos/seed/g3/400/400', category: 'TikTok' },
+                { src: 'https://picsum.photos/seed/g4/400/400', category: 'Instagram' },
+                { src: 'https://picsum.photos/seed/g5/400/400', category: 'Instagram' },
+                { src: 'https://picsum.photos/seed/g6/400/400', category: 'Instagram' }
+            ];
         }
 
         // ============================================================
-        // TYPING ANIMATION - Updated with dynamic title
+        // TYPING ANIMATION
         // ============================================================
         let typingPhrases = [
             'Elevate Your <span class="highlight">Digital Presence</span>',
@@ -1385,7 +1624,6 @@
         let charIndex = 0;
         let isDeleting = false;
         const typingElement = document.getElementById('typingHeading');
-        const cursor = typingElement.querySelector('.typing-cursor');
 
         function typeEffect() {
             const currentPhrase = typingPhrases[phraseIndex];
@@ -1410,43 +1648,6 @@
                     setTimeout(typeEffect, 300);
                 }
             }
-        }
-
-        function updateTypingPhrases(title) {
-            if (title) {
-                const cleanTitle = title.replace(/<[^>]*>/g, '');
-                typingPhrases[0] = cleanTitle + ' <span class="highlight">Digital Presence</span>';
-                // Reset typing
-                phraseIndex = 0;
-                charIndex = 0;
-                isDeleting = false;
-            }
-        }
-
-        // ============================================================
-        // TESTIMONIALS - From worker
-        // ============================================================
-        function getDefaultTestimonials() {
-            return [
-                { name: 'Aina R.', text: 'Super fast service! Followers started coming in within 2 hours. Very satisfied!', stars: 5 },
-                { name: 'Farid Z.', text: 'Quality followers with real engagement. My account growth has been incredible. Highly recommended!', stars: 5 },
-                { name: 'Sarah H.', text: 'Affordable pricing and excellent customer support. They really care about their clients.', stars: 4 },
-                { name: 'Adam B.', text: 'My Instagram blew up after using Socmegy. Best investment I\'ve made for my brand.', stars: 5 }
-            ];
-        }
-
-        // ============================================================
-        // GALLERY - From worker
-        // ============================================================
-        function getDefaultGallery() {
-            return [
-                { src: 'https://picsum.photos/seed/g1/400/400', category: 'TikTok' },
-                { src: 'https://picsum.photos/seed/g2/400/400', category: 'TikTok' },
-                { src: 'https://picsum.photos/seed/g3/400/400', category: 'TikTok' },
-                { src: 'https://picsum.photos/seed/g4/400/400', category: 'Instagram' },
-                { src: 'https://picsum.photos/seed/g5/400/400', category: 'Instagram' },
-                { src: 'https://picsum.photos/seed/g6/400/400', category: 'Instagram' }
-            ];
         }
 
         // ============================================================
@@ -1623,7 +1824,12 @@
 
         async function renderTestimonials() {
             const data = await loadTestimonialsFromWorker();
-            testimonialsData = data || getDefaultTestimonials();
+            testimonialsData = data || [];
+            
+            if (!testimonialsData.length) {
+                testimonialGrid.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:var(--text-muted);padding:30px 0;">No testimonials</div>';
+                return;
+            }
             
             const cardsPerPage = window.innerWidth <= 768 ? 1 : 2;
             const totalPages = Math.ceil(testimonialsData.length / cardsPerPage);
@@ -1687,7 +1893,7 @@
 
         async function renderGalleryItems() {
             const data = await loadGalleryFromWorker();
-            galleryData = data || getDefaultGallery();
+            galleryData = data || [];
             
             renderGalleryCategories();
             
@@ -1879,7 +2085,6 @@
                 const data = await response.json();
                 if (!response.ok) throw new Error(data.error || 'Failed to create bill');
                 if (data.billCode) { 
-                    // Save order data to localStorage for success page
                     const orderData = {
                         orderId: `ORDER-${Date.now()}`,
                         date: new Date().toLocaleDateString('ms-MY', { day: 'numeric', month: 'long', year: 'numeric' }),
@@ -1898,15 +2103,6 @@
                 submitBtn.innerHTML = '<i class="fas fa-credit-card"></i> Pay Now';
                 isProcessing = false;
             }
-        });
-
-        // ============================================================
-        // KEYBOARD SHORTCUTS
-        // ============================================================
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') { closeLightbox(); closeCheckoutModal(); closeCart(); closeMobileMenu(); }
-            if (e.key === 'ArrowLeft' && lightbox.classList.contains('active')) prevImage();
-            if (e.key === 'ArrowRight' && lightbox.classList.contains('active')) nextImage();
         });
 
         // ============================================================
@@ -1932,9 +2128,6 @@
         async function init() {
             // Load hero from worker
             const hero = await loadHeroFromWorker();
-            if (hero && hero.title) {
-                updateTypingPhrases(hero.title);
-            }
             
             // Start typing animation
             setTimeout(typeEffect, 800);
@@ -1959,6 +2152,7 @@
 
             console.log('✨ Socmegy — All data from Worker (sync with admin)');
             console.log('📌 Hero, Testimonials, Gallery - SYNC from worker');
+            console.log('📌 Quick links: Terms & Shipping');
         }
 
         init();
